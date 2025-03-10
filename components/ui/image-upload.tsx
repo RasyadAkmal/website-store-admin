@@ -25,14 +25,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     setIsMounted(true);
   }, []);
 
-  const onUpload = (result: any) => {
-    onChange(result.info.secure_url);
-  };
-
-  if (!isMounted) {
-    return null;
-  }
-
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">
@@ -55,17 +47,22 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           </div>
         ))}
       </div>
-      <CldUploadWidget onUpload={onUpload} uploadPreset="gtprd9am">
+
+      <CldUploadWidget
+        uploadPreset="gtprd9am"
+        onQueuesEnd={(result: any) => {
+            onChange(result.info.files[0].uploadInfo.secure_url);
+        }}
+      >
         {({ open }) => {
-          const onClick = () => {
-            open();
-          };
           return (
             <Button
               type="button"
               disabled={disabled}
               variant="secondary"
-              onClick={onClick}
+              onClick={() => {
+                open();
+              }}
             >
               <ImagePlus className="h-4 w-4 mr-2" />
               Upload image

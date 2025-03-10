@@ -17,8 +17,8 @@ export async function GET(
       },
       include: {
         images: true,
-        category: true,
-      },
+        category: true
+      }
     });
 
     return NextResponse.json(product);
@@ -36,11 +36,12 @@ export async function PATCH(
     const { userId } = auth();
     const body = await req.json();
 
-    const { name, price, categoryId, images, isFeatured, isArchived } = body;
+    const { name, description, price, categoryId, images, isFeatured, isArchived } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
     }
+    
     if (!name) {
       return new NextResponse("Nama perlu diinput", { status: 400 });
     }
@@ -78,6 +79,7 @@ export async function PATCH(
       },
       data: {
         name,
+        description,
         price,
         isFeatured,
         isArchived,

@@ -34,18 +34,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 
 interface ProductFormProps {
   initialData:
-    | (Product & {
-        images: Image[];
-      })
-    | null;
+  | (Product & {
+    images: Image[];
+  })
+  | null;
   categories: Category[];
 }
 
 const formSchema = z.object({
   name: z.string().min(1),
+  description: z.string().min(1),
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
@@ -77,17 +79,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: initialData
       ? {
-          ...initialData,
-          price: parseFloat(String(initialData?.price)),
-        }
+        ...initialData,
+        price: parseFloat(String(initialData?.price)),
+      }
       : {
-          name: "",
-          images: [],
-          price: 0,
-          categoryId: "",
-          isFeatured: false,
-          isArchived: false,
-        },
+        name: "",
+        description: "",
+        images: [],
+        price: 0,
+        categoryId: "",
+        isFeatured: false,
+        isArchived: false,
+      },
   });
 
   const onSubmit = async (data: ProductFormValues) => {
@@ -187,6 +190,23 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormControl>
                     <Input
                       placeholder="Nama Produk"
+                      disabled={loading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Deskripsi Produk"
                       disabled={loading}
                       {...field}
                     />

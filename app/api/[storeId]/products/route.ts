@@ -10,7 +10,7 @@ export async function POST(
     const { userId } = auth();
     const body = await req.json();
 
-    const { name, price, categoryId, images, isFeatured, isArchived } = body;
+    const { name, price, description, categoryId, images, isFeatured, isArchived } = body;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -50,6 +50,7 @@ export async function POST(
     const product = await db.product.create({
       data: {
         name,
+        description,
         price,
         categoryId,
         isFeatured,

@@ -8,8 +8,8 @@ import { ModalProvider } from "@/providers/modal-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Ali Admin",
-  description: "Ali Admin",
+  title: "Fatih Parfum Admin",
+  description: "Fatih Parfum Admin",
 };
 
 export default function RootLayout({
